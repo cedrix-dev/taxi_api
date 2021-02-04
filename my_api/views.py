@@ -63,6 +63,45 @@ class objetPerduViewSet(viewsets.ModelViewSet):
     queryset=objetPerdu.objects.all().order_by('description')
     serializer_class=objetPerduSerializer
 
+
+@api_view(['POST'])
+def authentification(request):
+    if request.method=='POST':
+        username=request.data['username']
+        password=request.data['password']
+        type_log=request.data['type']
+        try:
+            if type_log=='passager':
+                passager.objects.get(username=username,password=password)
+            elif type_log=='taximan':
+                taximan.objects.get(username=username,password=password)
+            elif type_log=="admin":
+                administrateur.objects.get(username=username,password=password)
+            else:
+                result={
+                    'code':"Error type",
+                    "status":"FAILLED",
+                    "message":'type invalide'
+                }
+                return Response(result,status.HTTP_200_OK)
+            result={
+                'code':"HTTP_200_OK",
+                'status':"SUCCESS",
+                'user':username,
+                'type':type_log
+            }
+            return Response(result , status.HTTP_200_OK)
+        except:
+            result={
+                    "code":"Error Credentials",
+                    "status":"FAILLED",
+                    "username":username,
+                    "message":"bad credentials"
+                }
+            return Response(result,status.HTTP_200_OK)
+        
+
+
    
 @api_view(['GET'])
 def taximanDetail(request,pk):

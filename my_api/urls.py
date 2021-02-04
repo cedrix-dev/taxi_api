@@ -20,5 +20,6 @@ path('passager-new/',nouveauPassager),
 path('reservation-new/',reservationViewSet.faireReservation),
 path('declarer-perte/',declarerPerte),
 path('taximan-del/<str:pk>',suppTaximan),
-path('passager-del/<str:pk>',suppPassager)
+path('passager-del/<str:pk>',suppPassager),
+path('authentification/',authentification)
 ]
